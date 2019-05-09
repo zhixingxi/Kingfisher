@@ -116,7 +116,9 @@ public enum DiskStorage {
                 // The estimated expiration date.
                 .modificationDate: expiration.estimatedExpirationSinceNow.fileAttributeDate
             ]
-            config.fileManager.createFile(atPath: fileURL.path, contents: data, attributes: attributes)
+
+            let result = config.fileManager.createFile(atPath: fileURL.path, contents: data, attributes: attributes)
+            print("Storing file to path: \(fileURL.path), data length: \(data.count), attributes: \(attributes), successful: \(result)")
         }
 
         func value(forKey key: String) throws -> T? {
