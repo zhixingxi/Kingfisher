@@ -454,17 +454,17 @@ extension AnimatedImageView {
         }
 
         func frame(at index: Int) -> Image? {
-            return animatedFrames[safe: index]?.image
+            return _animatedFrames[safe: index]?.image
         }
 
         func duration(at index: Int) -> TimeInterval {
-            return animatedFrames[safe: index]?.duration  ?? .infinity
+            return _animatedFrames[safe: index]?.duration  ?? .infinity
         }
 
         func prepareFramesAsynchronously() {
             frameCount = Int(CGImageSourceGetCount(imageSource))
-            animatedFrames.reserveCapacity(frameCount)
             preloadQueue.async(flags: .barrier) {[weak self] in
+                self?.animatedFrames.reserveCapacity(self?.frameCount ?? 0)
                 self?.setupAnimatedFrames()
             }
         }
