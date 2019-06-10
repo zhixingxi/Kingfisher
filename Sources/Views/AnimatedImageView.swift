@@ -359,6 +359,13 @@ extension AnimatedImageView {
 
         private let maxTimeStep: TimeInterval = 1.0
         private var animatedFrames = [AnimatedFrame]()
+        private var _animatedFrames: [AnimatedFrame] {
+            var frames = [AnimatedFrame]()
+            preloadQueue.sync {
+                frames = animatedFrames
+            }
+            return frames
+        }
         private var frameCount = 0
         private var timeSinceLastFrameChange: TimeInterval = 0.0
         private var currentRepeatCount: UInt = 0
@@ -393,7 +400,7 @@ extension AnimatedImageView {
 
         var previousFrameIndex = 0 {
             didSet {
-                preloadQueue.async {
+                preloadQueue.async(flags: .barrier) {
                     self.updatePreloadedFrames()
                 }
             }
@@ -457,7 +464,7 @@ extension AnimatedImageView {
         func prepareFramesAsynchronously() {
             frameCount = Int(CGImageSourceGetCount(imageSource))
             animatedFrames.reserveCapacity(frameCount)
-            preloadQueue.async { [weak self] in
+            preloadQueue.async(flags: .barrier) {[weak self] in
                 self?.setupAnimatedFrames()
             }
         }
