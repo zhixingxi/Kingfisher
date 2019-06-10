@@ -33,7 +33,7 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = "10.12"
   s.watchos.deployment_target = "3.0"
 
-  s.source       = { :git => "https://github.com/onevcat/Kingfisher.git", :tag => s.version }
+  s.source       = { :git => "https://github.com/zhixingxi/Kingfisher.git", :tag => s.version }
   
   s.source_files  = ["Sources/**/*.swift", "Sources/Kingfisher.h"]
   s.public_header_files = ["Sources/Kingfisher.h"]
